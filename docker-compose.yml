@@ -6,6 +6,7 @@ services:
             args:
                 requirements: requirements/testing.txt
         environment:
+            DJANGO_SETTINGS_MODULE: djangodocker.settings.testing
             VIRTUAL_HOST: app1.ifba.edu.br
         depends_on:
             - nginx-proxy

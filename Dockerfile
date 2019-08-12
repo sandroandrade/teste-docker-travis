@@ -1,6 +1,7 @@
 FROM python
 
 ARG requirements=requirements/production.txt
+ENV DJANGO_SETTINGS_MODULE=djangodocker.settings.development
 WORKDIR /app
 
 COPY djangodocker djangodocker
