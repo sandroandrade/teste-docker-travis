@@ -1,0 +1,34 @@
+version: "3.2"
+services:
+    app:
+        build:
+            context: .
+            args:
+                requirements: requirements/testing.txt
+        environment:
+            VIRTUAL_HOST: app1.ifba.edu.br
+        depends_on:
+            - nginx-proxy
+    db:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: djangodocker_db
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql:/var/lib/mysql
+    nginx-proxy:
+        image: jwilder/nginx-proxy
+        depends_on:
+            - "db"
+        ports:
+            - "80:80"
+        volumes:
+            - /etc/nginx/vhost.d
+            - /usr/share/nginx/html
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+
+volumes:
+    mysql:
